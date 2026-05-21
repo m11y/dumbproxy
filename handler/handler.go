@@ -229,6 +229,11 @@ func (s *ProxyHandler) ServeHTTP(wr http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if isLandingPageRequest(req) {
+		serveLandingPage(wr, req)
+		return
+	}
+
 	ctx := req.Context()
 	username, ok := s.auth.Validate(ctx, wr, req)
 	localAddr := getLocalAddr(req.Context())
